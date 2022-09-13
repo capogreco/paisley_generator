@@ -1,0 +1,5 @@
+/Users/thomas/Documents/paisley_generator/target/rls/debug/deps/num_cpus-25f6131f6190519e.rmeta: /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/num_cpus-1.13.1/src/lib.rs
+
+/Users/thomas/Documents/paisley_generator/target/rls/debug/deps/num_cpus-25f6131f6190519e.d: /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/num_cpus-1.13.1/src/lib.rs
+
+/Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/num_cpus-1.13.1/src/lib.rs:

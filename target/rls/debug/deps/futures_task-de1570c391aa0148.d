@@ -1,0 +1,11 @@
+/Users/thomas/Documents/paisley_generator/target/rls/debug/deps/futures_task-de1570c391aa0148.rmeta: /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/lib.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/spawn.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/arc_wake.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/waker.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/waker_ref.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/future_obj.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/noop_waker.rs
+
+/Users/thomas/Documents/paisley_generator/target/rls/debug/deps/futures_task-de1570c391aa0148.d: /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/lib.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/spawn.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/arc_wake.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/waker.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/waker_ref.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/future_obj.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/noop_waker.rs
+
+/Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/lib.rs:
+/Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/spawn.rs:
+/Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/arc_wake.rs:
+/Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/waker.rs:
+/Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/waker_ref.rs:
+/Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/future_obj.rs:
+/Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.21/src/noop_waker.rs:

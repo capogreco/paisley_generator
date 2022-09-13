@@ -1,0 +1,10 @@
+/Users/thomas/Documents/paisley_generator/target/rls/debug/deps/futures_channel-4f6a5a1bcbf85344.rmeta: /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/lib.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/lock.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/mpsc/mod.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/mpsc/queue.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/mpsc/sink_impl.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/oneshot.rs
+
+/Users/thomas/Documents/paisley_generator/target/rls/debug/deps/futures_channel-4f6a5a1bcbf85344.d: /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/lib.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/lock.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/mpsc/mod.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/mpsc/queue.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/mpsc/sink_impl.rs /Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/oneshot.rs
+
+/Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/lib.rs:
+/Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/lock.rs:
+/Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/mpsc/mod.rs:
+/Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/mpsc/queue.rs:
+/Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/mpsc/sink_impl.rs:
+/Users/thomas/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-channel-0.3.21/src/oneshot.rs:
