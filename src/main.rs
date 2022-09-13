@@ -1,4 +1,5 @@
 extern crate nannou;
+mod geometry_functions;
 use nannou::prelude::*;
 use nannou::prelude::geom::Vec2;
 
@@ -54,9 +55,14 @@ fn view(_app: &App, _model: &Model, frame: Frame){
 
     let draw = _app.draw();
 
-    draw.ellipse().width(100.0).height(100.0);
+    let circle_start = pt2(-50.0, 0.0);
+    let circle_end = pt2(50.0, 0.0);
+    let mut semi_circle_points = geometry_functions::semi_circle(circle_end, circle_start);
 
-    let points = get_wiggler_tail(100, 1.5, 0.5, 300, _app.time);
+    // draw.ellipse().width(100.0).height(100.0);
+
+    let mut points = get_wiggler_tail(100, 1.5, 0.5, 300, _app.time);
+    points.append(&mut semi_circle_points);
 
     draw.polyline()
         .weight(3.0)
