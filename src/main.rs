@@ -77,25 +77,48 @@ fn draw_wiggler(draw: &Draw, width: i32, wiggle_rate: f32, wiggle_intensity: f32
     points_2.append(&mut wiggler_tail_2);
     points_2.append(&mut semi_circle_points_2);
     points_2.push(meeting_point_2);
+    let outer_color = hsl (x_offset.clone() / 360.0, 3.0, 20.0);
+    let inner_color = hsl (y_offset.clone() / 360.0, 3.0, 20.0);
 
     draw.polygon()
         .points(points)
-        .color(PURPLE);
+        .color(outer_color);
     draw.polygon()
         .points(points_2)
-        .color(LIMEGREEN);
+        .color(inner_color);
 }
 
 fn view(_app: &App, _model: &Model, frame: Frame){
-    frame.clear(PINK);
+    let wiggler_rows = 3;
+    let wiggler_columns = 10;
+    let hue = _app.time.clone() / 20.0;  //(6_app.time.clone() as i32 % 30) as f32;
+    // println!("hue: {}", hue);
+    // let hue = _app.time % 360;
+    let background_color = hsl (hue, 3.0, 20.0);
+    frame.clear(background_color);
 
+    let win = _app.window_rect();
+    let max_x = win.x.end;
+    let min_x = win.x.start;
+    let min_y = win.y.start;
+    let max_y = win.y.end;
+    let x_padding = 20;
+    let y_padding = 20;
+    let total_width = max_x - min_x;
+    let total_height = max_y - min_y;
+    let wiggler_width = total_width as i32 / wiggler_columns - x_padding;
+    let wiggler_height = total_height as i32 / wiggler_rows - y_padding;
+    let tail_length = wiggler_height as f32 * 3.5 / 5.0;
     let draw = _app.draw();
-    let x_offset: f32 = 200.0;
-    let y_offset: f32 = 200.0;
-    draw_wiggler(&draw,150, 1.5, 0.5, 200, &_app.time, &x_offset, &y_offset);
 
-    let x_offset: f32 = -200.0;
-    let y_offset: f32 = -200.0;
-    draw_wiggler(&draw,120, 1.1, 0.8, 300, &_app.time, &x_offset, &y_offset);
+    for i in 0..(&wiggler_rows * &wiggler_columns) {
+        let row_number = (i / &wiggler_columns) as i32;
+        let column_number = i % &wiggler_columns;
+        let x_offset: f32 = min_x.clone() + (wiggler_width.clone() + x_padding.clone()) as f32 / 2.0 + (column_number * wiggler_width.clone() + x_padding.clone() * column_number)  as f32;
+        let y_offset: f32 = min_y.clone() + (wiggler_height.clone() + y_padding.clone()) as f32 / 2.0 + (row_number * wiggler_height.clone()  + y_padding.clone() * row_number.clone()) as f32;
+        println!("row: {}, column: {}, x_offset: {}, y_offset: {}", row_number, column_number, x_offset, y_offset);
+        draw_wiggler(&draw, wiggler_width, 1.5, 0.5, tail_length as usize, &_app.time, &x_offset, &y_offset);
+    }
+
     draw.to_frame(_app, &frame).unwrap();
 }
