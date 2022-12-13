@@ -24,6 +24,9 @@ pub fn semi_circle(start_point: Vec2, end_point: Vec2) -> Vec<Vec2> {
     let mut points = Vec::with_capacity(180);
 
     for i in 0..180 {
+        if i % 5 != 0 {
+            continue;
+        }
         let angle = i as f32 * PI / 180.0;
         // let r = radius.clone();
         let r = radius.rotate(angle);

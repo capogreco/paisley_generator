@@ -82,7 +82,7 @@ fn get_wiggler_points(draw: &Draw, width: i32, wiggle_rate: f32, wiggle_intensit
 
 fn view(_app: &App, _model: &Model, frame: Frame){
     let wiggler_rows = 3;
-    let wiggler_columns = 12;
+    let wiggler_columns = 8;
     let hue = _app.time.clone() / 20.0;  //(6_app.time.clone() as i32 % 30) as f32;
     // println!("hue: {}", hue);
     // let hue = _app.time % 360;
@@ -101,35 +101,55 @@ fn view(_app: &App, _model: &Model, frame: Frame){
     let wiggler_width = total_width as i32 / wiggler_columns - x_padding;
     let wiggler_height = total_height as i32 / wiggler_rows - y_padding;
     let tail_length = wiggler_height as f32 * 3.5 / 5.0;
+    // println!("{:?}", tail_length);
     let draw = _app.draw();
     let x_offset: f32 = 0  as f32;
     let y_offset: f32 = 0 as f32;
     let outer_color = PINK; //hsl (x_offset.clone() / 360.0, 1.0, 20.0);
     let inner_color = GREEN; //hsl (y_offset.clone() / 360.0, 2.0, 20.0);
-    let outerPoints = get_wiggler_points(&draw, wiggler_width, 1.5, 0.9, tail_length as usize, &_app.time, &x_offset, &y_offset);
-    let innerPoints = get_wiggler_points(&draw, wiggler_width.clone() / 2, 1.5, 0.9, tail_length as usize, &_app.time, &x_offset, &y_offset);
-    let outer_edging = geometry_functions::semi_circle_edge(&outerPoints, 24);
+    let outer_points = get_wiggler_points(&draw, wiggler_width, 1.5, 0.9, tail_length as usize, &_app.time, &x_offset, &y_offset);
+    let inner_points = get_wiggler_points(&draw, wiggler_width.clone() / 2, 1.5, 0.9, tail_length as usize, &_app.time, &x_offset, &y_offset);
+    let outer_edging = geometry_functions::semi_circle_edge(&outer_points, 24);
+    // draw.polygon()
+    //     .points(outer_edging.clone())
+    //     .color(YELLOW);
+    // draw.polygon()
+    //     .points(outer_points.clone())
+    //     .color(outer_color);
+    // draw.polygon()
+    //     .points(inner_points.clone())
+    //     .color(inner_color);
 
-    draw.polygon()
-        .points(outer_edging)
-        .color(YELLOW);
-    draw.polygon()
-        .points(outerPoints)
-        .color(outer_color);
-    draw.polygon()
-        .points(innerPoints)
-        .color(inner_color);
-    //
-    // for i in 0..(&wiggler_rows * &wiggler_columns) {
-    //     let row_number = (i / &wiggler_columns) as i32;
-    //     let column_number = i % &wiggler_columns;
-    //     let x_offset: f32 = min_x.clone() + (wiggler_width.clone() + x_padding.clone()) as f32 / 2.0 + (column_number * wiggler_width.clone() + x_padding.clone() * column_number)  as f32;
-    //     let y_offset: f32 = min_y.clone() + (wiggler_height.clone() + y_padding.clone()) as f32 / 2.0 + (row_number * wiggler_height.clone()  + y_padding.clone() * row_number.clone()) as f32;
-    //     //println!("row: {}, column: {}, x_offset: {}, y_offset: {}", row_number, column_number, x_offset, y_offset);
-    //     let outer_color = hsl (x_offset.clone() / 360.0, 3.0, 20.0);
-    //     let inner_color = hsl (y_offset.clone() / 360.0, 3.0, 20.0);
-    //
-    // }
+    for i in 0..(&wiggler_rows * &wiggler_columns) {
+        let row_number = (i / &wiggler_columns) as i32;
+        let column_number = i % &wiggler_columns;
+        let x_offset: f32 = min_x.clone() + (wiggler_width.clone() + x_padding.clone()) as f32 / 2.0 + (column_number * wiggler_width.clone() + x_padding.clone() * column_number)  as f32;
+        let y_offset: f32 = min_y.clone() + (wiggler_height.clone() + y_padding.clone()) as f32 / 2.0 + (row_number * wiggler_height.clone()  + y_padding.clone() * row_number.clone()) as f32;
+        let outer_edging_size = outer_edging.len();
+        let mut translated_outer_edging = Vec::with_capacity(outer_edging_size.clone());
+        for i in 0..outer_edging_size {
+            translated_outer_edging.push(pt2(outer_edging[i].x + &x_offset, outer_edging[i].y + &y_offset));
+        }
+        draw.polygon()
+            .points(translated_outer_edging)
+            .color(YELLOW);
+        let outer_points_size = outer_points.len();
+        let mut translated_outer_points = Vec::with_capacity(outer_points_size);
+        for i in 0..outer_points_size {
+            translated_outer_points.push(pt2(outer_points[i].x + &x_offset, outer_points[i].y + &y_offset));
+        }
+        draw.polygon()
+            .points(translated_outer_points)
+            .color(outer_color);
+        let inner_points_size = inner_points.len();
+        let mut translated_inner_points = Vec::with_capacity(inner_points_size);
+        for i in 0..inner_points_size {
+            translated_inner_points.push(pt2(inner_points[i].x + &x_offset, inner_points[i].y + &y_offset));
+        }
+        draw.polygon()
+            .points(translated_inner_points)
+            .color(inner_color);
+    }
 
     draw.to_frame(_app, &frame).unwrap();
 }
