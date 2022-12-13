@@ -86,7 +86,7 @@ fn view(_app: &App, _model: &Model, frame: Frame){
     let hue = _app.time.clone() / 20.0;  //(6_app.time.clone() as i32 % 30) as f32;
     // println!("hue: {}", hue);
     // let hue = _app.time % 360;
-    let background_color = hsl (hue, 3.0, 20.0);
+    let background_color = TURQUOISE;// hsl (hue, 3.0, 20.0);
     frame.clear(background_color);
 
     let win = _app.window_rect();
@@ -104,12 +104,15 @@ fn view(_app: &App, _model: &Model, frame: Frame){
     let draw = _app.draw();
     let x_offset: f32 = 0  as f32;
     let y_offset: f32 = 0 as f32;
-    let outer_color = hsl (x_offset.clone() / 360.0, 1.0, 20.0);
-    let inner_color = hsl (y_offset.clone() / 360.0, 2.0, 20.0);
+    let outer_color = PINK; //hsl (x_offset.clone() / 360.0, 1.0, 20.0);
+    let inner_color = GREEN; //hsl (y_offset.clone() / 360.0, 2.0, 20.0);
     let outerPoints = get_wiggler_points(&draw, wiggler_width, 1.5, 0.9, tail_length as usize, &_app.time, &x_offset, &y_offset);
     let innerPoints = get_wiggler_points(&draw, wiggler_width.clone() / 2, 1.5, 0.9, tail_length as usize, &_app.time, &x_offset, &y_offset);
+    let outer_edging = geometry_functions::semi_circle_edge(&outerPoints, 24);
 
-
+    draw.polygon()
+        .points(outer_edging)
+        .color(YELLOW);
     draw.polygon()
         .points(outerPoints)
         .color(outer_color);

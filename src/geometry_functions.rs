@@ -29,7 +29,7 @@ pub fn semi_circle(start_point: Vec2, end_point: Vec2) -> Vec<Vec2> {
         let r = radius.rotate(angle);
         // r.rotate (angle);
         let p = mid_point + r;
-        println!("i: {}, p: {}", i, p);
+        // println!("i: {}, p: {}", i, p);
         // points[i] = p;
         points.push(p)
     }
