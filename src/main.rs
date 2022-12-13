@@ -90,7 +90,7 @@ fn draw_wiggler(draw: &Draw, width: i32, wiggle_rate: f32, wiggle_intensity: f32
 
 fn view(_app: &App, _model: &Model, frame: Frame){
     let wiggler_rows = 3;
-    let wiggler_columns = 10;
+    let wiggler_columns = 12;
     let hue = _app.time.clone() / 20.0;  //(6_app.time.clone() as i32 % 30) as f32;
     // println!("hue: {}", hue);
     // let hue = _app.time % 360;
@@ -116,8 +116,8 @@ fn view(_app: &App, _model: &Model, frame: Frame){
         let column_number = i % &wiggler_columns;
         let x_offset: f32 = min_x.clone() + (wiggler_width.clone() + x_padding.clone()) as f32 / 2.0 + (column_number * wiggler_width.clone() + x_padding.clone() * column_number)  as f32;
         let y_offset: f32 = min_y.clone() + (wiggler_height.clone() + y_padding.clone()) as f32 / 2.0 + (row_number * wiggler_height.clone()  + y_padding.clone() * row_number.clone()) as f32;
-        println!("row: {}, column: {}, x_offset: {}, y_offset: {}", row_number, column_number, x_offset, y_offset);
-        draw_wiggler(&draw, wiggler_width, 1.5, 0.5, tail_length as usize, &_app.time, &x_offset, &y_offset);
+        //println!("row: {}, column: {}, x_offset: {}, y_offset: {}", row_number, column_number, x_offset, y_offset);
+        draw_wiggler(&draw, wiggler_width, 1.5, 0.9, tail_length as usize, &_app.time, &x_offset, &y_offset);
     }
 
     draw.to_frame(_app, &frame).unwrap();
