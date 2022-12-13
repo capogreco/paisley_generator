@@ -1,8 +1,6 @@
 extern crate nannou;
 mod geometry_functions;
-use geometry_functions::semi_circle_edge;
 use nannou::prelude::*;
-use nannou::prelude::geom::Vec2;
 
 fn main() {
     nannou::app(model)
@@ -20,16 +18,26 @@ fn model(_app: &App) -> Model {
 fn update(_app: &App, _model: &mut Model, _update: Update) {
 }
 
-fn get_wiggler_tail(width: i32, wiggle_rate: f32, wiggle_intensity: f32, tail_length: usize, time: f32) -> Vec<Point2> {
-    let twirlAngle = time * TAU * wiggle_rate;
-    let twirl = twirlAngle.sin() * PI / 2.0;
+/*
+    @param width the width of the wiggler at the widest point
+    @param wiggle_rate the speed that the wiggler completes one full arc in seconds
+    @param wiggle_intensity the maximum angle that the tail sweeps around to
+    @param time the time variable of the frame in which it is drawmn
+    @param tail_length the length of the tail from the centre of the semi circle head
+    @param x_offset the amount to offset all points by in the x axis
+    @param y_offset the amount to offset all points by in the y axis
+    @returns an array of points of a completed wiggler tail
+ */
+fn get_wiggler_tail(width: i32, wiggle_rate: f32, wiggle_intensity: f32, tail_length: usize, time: &f32, x_offset: &f32, y_offset: &f32) -> Vec<Point2> {
+    let twirl_angle = time * TAU * wiggle_rate;
+    let twirl = twirl_angle.sin() * PI / 2.0;
 
     let mut side1 : Vec<Point2> = Vec::with_capacity(tail_length);
-    let mut side2 : Vec<Point2> = Vec::with_capacity(tail_length);
+    let mut side2 : Vec<Point2> = Vec::with_capacity(tail_length.clone());
 
     for i in 1..tail_length {
-        let position = i as f32 / tail_length as f32;
-        let position_width = width as f32 * (position * PI / 2.0).cos().pow(4);
+        let position = i as f32 / tail_length.clone() as f32;
+        let position_width = width.clone() as f32 * (position * PI / 2.0).cos().pow(4);
         let theta = position * &wiggle_intensity * twirl;
         let angle = (PI / 2.0) + theta;
         let x1 = angle.cos() * i as f32;
@@ -38,16 +46,16 @@ fn get_wiggler_tail(width: i32, wiggle_rate: f32, wiggle_intensity: f32, tail_le
 
         let x2 = (angle + PI/2.0).cos() * position_width / 2.0 as f32;
         let y2 = (angle + PI/2.0).sin()* position_width / 2.0 as f32;
-        let p2 = pt2(x2, y2) + p1;
+        let p2 = pt2(x2 + x_offset, y2 + y_offset) + p1;
         side1.push(p2);
 
         let x3 = (angle - PI/2.0).cos() * position_width / 2.0 as f32;
         let y3 = (angle - PI/2.0).sin() * position_width / 2.0 as f32;
-        let p3 = pt2(x3, y3) + p1;
+        let p3 = pt2(x3 + x_offset, y3 + y_offset) + p1.clone();
         side2.push(p3);
     }
 
-    let mut reversed_side_1 = Vec::with_capacity(tail_length);
+    let mut reversed_side_1 = Vec::with_capacity(tail_length.clone());
     for i in 0..side1.len() {
         reversed_side_1.push(side1[side1.len() - 1 - i])
     }
@@ -55,47 +63,73 @@ fn get_wiggler_tail(width: i32, wiggle_rate: f32, wiggle_intensity: f32, tail_le
     side2
 }
 
-fn view(_app: &App, _model: &Model, frame: Frame){
-    frame.clear(PINK);
-
-    let draw = _app.draw();
-
-    let circle_start = pt2(-75.0, 0.0);
-    let circle_end = pt2(75.0, 0.0);
+fn get_wiggler_points(draw: &Draw, width: i32, wiggle_rate: f32, wiggle_intensity: f32, tail_length: usize, time: &f32, x_offset: &f32, y_offset: &f32) -> Vec<Point2>{
+    let circle_start = pt2(width.clone() as f32 / -2.0 + x_offset, 0.0 + y_offset);
+    let circle_end = pt2(width.clone() as f32 / 2.0 + x_offset, 0.0 + y_offset);
     let mut semi_circle_points = geometry_functions::semi_circle(circle_end, circle_start);
 
     // draw.ellipse().width(100.0).height(100.0);
 
-    let mut wiggler_tail = get_wiggler_tail(150, 1.1, 0.5, 300, _app.time);
-    let mut points = Vec::with_capacity(300 * 2 + 180 + 1);
+    let mut wiggler_tail = get_wiggler_tail(width, wiggle_rate, wiggle_intensity, tail_length, time, x_offset, y_offset);
+    let mut points = Vec::with_capacity((&width * 2 + 180 + 1).try_into().unwrap());
     let meeting_point = pt2(wiggler_tail[0].x, wiggler_tail[0].y);
     points.append(&mut wiggler_tail);
     points.append(&mut semi_circle_points);
     points.push(meeting_point);
 
-    let circle_start_2 = pt2(-37.5, 0.0);
-    let circle_end_2 = pt2(37.5, 0.0);
-    let mut semi_circle_points_2 = geometry_functions::semi_circle(circle_end_2, circle_start_2);
+    points
+}
 
-    let mut wiggler_tail_2 = get_wiggler_tail(75, 1.1, 0.5, 300, _app.time);
-    let mut points_2 = Vec::with_capacity(150 * 2 + 180 + 1);
-    let meeting_point_2 = pt2(wiggler_tail_2[0].x, wiggler_tail_2[0].y);
-    points_2.append(&mut wiggler_tail_2);
-    points_2.append(&mut semi_circle_points_2);
-    points_2.push(meeting_point_2);
+fn view(_app: &App, _model: &Model, frame: Frame){
+    let wiggler_rows = 3;
+    let wiggler_columns = 12;
+    let hue = _app.time.clone() / 20.0;  //(6_app.time.clone() as i32 % 30) as f32;
+    // println!("hue: {}", hue);
+    // let hue = _app.time % 360;
+    let background_color = TURQUOISE;// hsl (hue, 3.0, 20.0);
+    frame.clear(background_color);
 
-
-    let edging = semi_circle_edge(&points, 24);
+    let win = _app.window_rect();
+    let max_x = win.x.end;
+    let min_x = win.x.start;
+    let min_y = win.y.start;
+    let max_y = win.y.end;
+    let x_padding = 20;
+    let y_padding = 20;
+    let total_width = max_x - min_x;
+    let total_height = max_y - min_y;
+    let wiggler_width = total_width as i32 / wiggler_columns - x_padding;
+    let wiggler_height = total_height as i32 / wiggler_rows - y_padding;
+    let tail_length = wiggler_height as f32 * 3.5 / 5.0;
+    let draw = _app.draw();
+    let x_offset: f32 = 0  as f32;
+    let y_offset: f32 = 0 as f32;
+    let outer_color = PINK; //hsl (x_offset.clone() / 360.0, 1.0, 20.0);
+    let inner_color = GREEN; //hsl (y_offset.clone() / 360.0, 2.0, 20.0);
+    let outerPoints = get_wiggler_points(&draw, wiggler_width, 1.5, 0.9, tail_length as usize, &_app.time, &x_offset, &y_offset);
+    let innerPoints = get_wiggler_points(&draw, wiggler_width.clone() / 2, 1.5, 0.9, tail_length as usize, &_app.time, &x_offset, &y_offset);
+    let outer_edging = geometry_functions::semi_circle_edge(&outerPoints, 24);
 
     draw.polygon()
-        .points(edging)
-        .color(TURQUOISE);
+        .points(outer_edging)
+        .color(YELLOW);
     draw.polygon()
-        .points(points)
-        .color(PURPLE);
+        .points(outerPoints)
+        .color(outer_color);
     draw.polygon()
-        .points(points_2)
-        .color(LIMEGREEN);
+        .points(innerPoints)
+        .color(inner_color);
+    //
+    // for i in 0..(&wiggler_rows * &wiggler_columns) {
+    //     let row_number = (i / &wiggler_columns) as i32;
+    //     let column_number = i % &wiggler_columns;
+    //     let x_offset: f32 = min_x.clone() + (wiggler_width.clone() + x_padding.clone()) as f32 / 2.0 + (column_number * wiggler_width.clone() + x_padding.clone() * column_number)  as f32;
+    //     let y_offset: f32 = min_y.clone() + (wiggler_height.clone() + y_padding.clone()) as f32 / 2.0 + (row_number * wiggler_height.clone()  + y_padding.clone() * row_number.clone()) as f32;
+    //     //println!("row: {}, column: {}, x_offset: {}, y_offset: {}", row_number, column_number, x_offset, y_offset);
+    //     let outer_color = hsl (x_offset.clone() / 360.0, 3.0, 20.0);
+    //     let inner_color = hsl (y_offset.clone() / 360.0, 3.0, 20.0);
+    //
+    // }
 
     draw.to_frame(_app, &frame).unwrap();
 }
