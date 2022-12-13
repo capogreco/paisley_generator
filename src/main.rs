@@ -1,5 +1,6 @@
 extern crate nannou;
 mod geometry_functions;
+use geometry_functions::semi_circle_edge;
 use nannou::prelude::*;
 use nannou::prelude::geom::Vec2;
 
@@ -83,6 +84,12 @@ fn view(_app: &App, _model: &Model, frame: Frame){
     points_2.append(&mut semi_circle_points_2);
     points_2.push(meeting_point_2);
 
+
+    let edging = semi_circle_edge(&points, 24);
+
+    draw.polygon()
+        .points(edging)
+        .color(TURQUOISE);
     draw.polygon()
         .points(points)
         .color(PURPLE);
